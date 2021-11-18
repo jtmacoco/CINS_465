@@ -3,9 +3,8 @@ from django.core import validators
 from django.core.validators import validate_unicode_slug
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User as auth_user
-from django import forms
-from . import models
 
+from . import models
 def must_be_unique(value):
     user_objects = auth_user.objects.filter(email=value)
     if len(user_objects) > 0:
@@ -41,6 +40,7 @@ class MoviesForm(forms.Form):
 
     def save(self,request):
         movie_instance = models.MovieModel()
-        movie_instance.suggestion = self.cleaned_data["movie_field"]
+        movie_instance.movie = self.cleaned_data["movie_field"]
         movie_instance.author = request.user
         movie_instance.save()
+        return movie_instance

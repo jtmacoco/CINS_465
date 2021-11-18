@@ -29,12 +29,14 @@ def register_view(request):
 
 def movies_view(request):
     if request.method == "POST":
+
         form = forms.MoviesForm(request.POST)
         if form.is_valid() and request.user.is_authenticated:
             form.save(request)
-            form = forms.MoviesForm
+            return redirect("/movies/")
     else:
-        form = forms.MoviesForm
+
+        form = forms.MoviesForm()
     context = {
         "title": "add movies",
         "form": form

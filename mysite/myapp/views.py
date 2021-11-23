@@ -16,6 +16,7 @@ def register_view(request):
     if request.method =="POST":
         form = forms.RegistrationForm(request.POST)
         if form.is_valid():
+            form.test(request)
             form.save(request)
             #form = forms.SuggestionForm()
             return redirect("/movies/")
@@ -32,6 +33,7 @@ def movies_view(request):
     if request.method == "POST":
         form = forms.MoviesForm(request.POST)
         if form.is_valid() and request.user.is_authenticated:
+            form.test(request)
             form.save(request)
             return redirect("/movies/")
     else:

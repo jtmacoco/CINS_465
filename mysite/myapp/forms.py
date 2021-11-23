@@ -35,9 +35,23 @@ class RegistrationForm(UserCreationForm):
             user.save()
         return user
 
-class MoviesForm(forms.Form):
-    movie_field = forms.CharField(label='movies', max_length=240)
 
+def same(value):
+    user_objects = models.MovieModel.objects.filter(movie=value)
+    field_name = 'author'
+    obj = models.MovieModel.objects.first()
+    field_value = getattr(obj,field_name)
+    a = field_value
+    user = models.auth_user.username
+    if len(user_objects) > 0 and a != user:
+        raise forms.ValidationError("Movie already exist")
+    return value
+
+class MoviesForm(forms.Form):
+    movie_field = forms.CharField(label='movies',
+     max_length=240,
+     validators=[same],
+ )
     def save(self,request):
         movie_instance = models.MovieModel()
         movie_instance.movie = self.cleaned_data["movie_field"]

@@ -62,9 +62,9 @@ def match_view(request):
         t = {"priority":0}
         for j in range(len(Movie_list)):
             if match.movie == Movie_list[j]["movie"] and match.author != cur_user:
-                    t["priority"] += 1
-                    t["user"] = match.author
-                    l += [t]
+                t["priority"] += 1
+                t["user"] = match.author
+                l += [t]
     seen = set()
     new_l = []
     for d in l:
@@ -82,12 +82,11 @@ def match_view(request):
                     max = new_l[i]["priority"] + new_l[j]["priority"]
                 else:
                     max = new_l[i]["priority"]
+                    break
             pair = (max,new_l[i]["user"])
             max = 0
             seen.add(new_l[i]["user"])
             lol.append(pair)
-
-    print(lol)
     sortes = sorted(lol,key=itemgetter(0),reverse = True)
     sort = sorted(new_l, key = lambda i: i["priority"],reverse = True)
     a_key = "priority"

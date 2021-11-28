@@ -56,7 +56,6 @@ class MoviesForm(forms.Form):
      # validators=[clean_test],
  )
     def test(self,request,form_class=None):
-        form = super().test(form_class)
         movie_name = self.cleaned_data['movie_field']
         cleaned_data = super().clean()
         cc_movie = cleaned_data.get("movie")

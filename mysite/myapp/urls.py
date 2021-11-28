@@ -6,5 +6,6 @@ urlpatterns = [
     path('login/',auth_views.LoginView.as_view()),
     path('register/', views.register_view),
     path('logout/', views.logout_view),
-    path('movies/',views.movies_view)
+    path('movies/',views.movies_view),
+    path('match/',views.match_view)
 ]

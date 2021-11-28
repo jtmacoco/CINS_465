@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+<div class="grid-x grid-margin-x">
+  <div class="cell medium-4 large-8">previous</div>
+  <div class="cell medium-6 large-4">reccomended
+    {%for o in list%}
+     <div class="cell medium-6 large-4"> {{o.1}}</div> 
+    {% endfor %}
+ </table>
+  </div>
+</div>
+{% endblock content %}

@@ -77,14 +77,13 @@ def match_view(request):
     for i in range(len(new_l)):
         max = 0
         if new_l[i]["user"] not in seen:
-            for j in range(len(new_l)-1):
+            for j in range(len(new_l)):
                 if new_l[i]["user"] == new_l[j]["user"]:
-                    max = new_l[i]["priority"] + new_l[j]["priority"]
-                else:
-                    max = new_l[i]["priority"]
-                    break
+                    max += new_l[i]["priority"] + new_l[j]["priority"]
+                # else:
+                #     max = new_l[j]["priority"]
+                    # break
             pair = (max,new_l[i]["user"])
-            max = 0
             seen.add(new_l[i]["user"])
             lol.append(pair)
     sortes = sorted(lol,key=itemgetter(0),reverse = True)

@@ -21,7 +21,7 @@ def register_view(request):
         if form.is_valid():
             form.save(request)
             #form = forms.SuggestionForm()
-            return redirect("/movies/")
+            return redirect("/login/")
     else:
         form = forms.RegistrationForm()
     context = {
@@ -94,3 +94,11 @@ def match_view(request):
         "list":sortes,
     }
     return render(request,"match.html",context=context)
+
+def chat_view(request):
+    return render(request, 'chat/chat.html')
+
+def room(request, room_name):
+    return render(request, 'chat/room.html', {
+        'room_name': room_name
+    })

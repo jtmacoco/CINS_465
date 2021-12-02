@@ -26,7 +26,9 @@
   <div class="top-bar-right">
     <ul class="menu">
       {% if request.user.is_authenticated%}
-      <li><a href="/match/">home</a></li>
+      <li><a href="/movies/">Add Movie </a></li>
+        <li><a href="/delete/">Delete Movie</a></li>
+        <li><a href="/match/">Home</a></li>
       <li>Hi {{request.user.username}}</li>
         {%else%}
       <li>Welcom Guest</li>

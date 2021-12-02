@@ -94,6 +94,25 @@ def match_view(request):
         "list":sortes,
     }
     return render(request,"match.html",context=context)
+def delete_view(request):
+    if request.method =="POST":
+        form = forms.DeleteForm(request.POST)
+        if form.is_valid():
+            form.delete_movie(request)
+            return redirect("/delete/")
+    else:
+        form = forms.DeleteForm()
+    movie_objects = models.MovieModel.objects.all()
+    cur_user = request.user
+    user_movie_list = []
+    for i in movie_objects:
+        if i.author == cur_user:
+            user_movie_list.append(i.movie)
+    context = {
+    "list":user_movie_list,
+    "form": form,
+    }
+    return render(request,"delete.html",context=context)
 
 def chat_view(request):
     return render(request, 'chat/chat.html')

@@ -75,3 +75,18 @@ class MoviesForm(forms.Form):
         movie_instance.author = request.user
         movie_instance.save()
         return movie_instance
+
+class DeleteForm(forms.Form):
+    delete_field = forms.CharField(label='movies',
+    max_length=240,
+    )
+
+    def delete_movie(self,request):
+        movie_name = self.cleaned_data['delete_field']
+        cleaned_data = super().clean()
+        cc_movie = cleaned_data.get("movie")
+        user = request.user
+        for instance in models.MovieModel.objects.all():
+            if instance.author == user and instance.movie == movie_name:
+                temp = models.MovieModel.objects.filter(id = instance.id)
+                temp.delete()

@@ -29,9 +29,8 @@ def register_view(request):
         "form": form
     }
     return render(request,"registration/register.html",context=context)
-
+@login_required
 def movies_view(request):
-
     if request.method == "POST":
         form = forms.MoviesForm(request.POST)
         if form.is_valid() and request.user.is_authenticated:
@@ -99,7 +98,7 @@ def delete_view(request):
         form = forms.DeleteForm(request.POST)
         if form.is_valid():
             form.delete_movie(request)
-            return redirect("/delete/")
+        return redirect("/delete/")
     else:
         form = forms.DeleteForm()
     movie_objects = models.MovieModel.objects.all()

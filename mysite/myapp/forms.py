@@ -90,3 +90,19 @@ class DeleteForm(forms.Form):
             if instance.author == user and instance.movie == movie_name:
                 temp = models.MovieModel.objects.filter(id = instance.id)
                 temp.delete()
+
+
+class ProfileForm(forms.Form):
+    image = forms.ImageField(
+        label="Image File",
+        required=False
+    )
+    about = forms.CharField(label = "about",max_length=240, required=False,widget=forms.Textarea)
+
+    def save(self, request):
+        profile_instance = models.ProfileModel()
+        profile_instance.image = self.cleaned_data["image"]
+        profile_instance.about = self.cleaned_data["about"]
+        profile_instance.author = request.user
+        profile_instance.save()
+        return profile_instance

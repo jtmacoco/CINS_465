@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<ul class="tabs" data-responsive-accordion-tabs=" large-tabs" id="example-tabs">
+  <li class="tabs-title is-active "><a href="#panel1" aria-selected="true">about</a></li>
+  <li class="tabs-title"><a href="#panel2">Movie List</a></li>
+</ul>
+
+<div class="tabs-content" data-tabs-content="example-tabs">
+  <div class="tabs-panel is-active" id="panel1" v-for="p in Profile">
+    <div class="callout clearfix">
+      {%for o in list2%}
+      <img src="{{o.0}}" >
+      {{o.1}}
+      {% endfor %}
+    <a href="/createProfile/" class="button float-right ">Edit</a>
+  </div>
+  </div>
+  <div class="tabs-panel" id="panel2">
+    {%for o in list1%}
+    <li> {{o}} </li>
+    {% endfor %}
+</div>
+{% endblock content %}
+{%block scripts%}
+<script src= "https://unpkg.com/vue@next"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{% static 'js/myvue.js' %}"></script>
+{% endblock %}

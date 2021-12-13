@@ -9,6 +9,8 @@ urlpatterns = [
     path('movies/',views.movies_view),
     path('match/',views.match_view),
     path('delete/', views.delete_view),
+    path('createProfile/',views.createProfile_view),
+    path('profile/',views.profile_view),
     path('chat/',views.chat_view),
     path('<str:room_name>/', views.room, name='room'),
 

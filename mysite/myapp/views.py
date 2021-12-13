@@ -113,6 +113,46 @@ def delete_view(request):
     }
     return render(request,"delete.html",context=context)
 
+def createProfile_view(request):
+    if request.method =="POST":
+        form = forms.ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save(request)
+            return redirect("/createProfile/")
+    else:
+        form = forms.ProfileForm()
+    context = {
+    "form": form,
+    }
+    return render(request,"createProfile.html",context = context)
+
+
+def profile_view(request):
+    cur_user = request.user
+    movie_objects = models.MovieModel.objects.all()
+    profile_objects = models.ProfileModel.objects.all()
+    movie_list=[]
+    profile_list=[]
+    for i in movie_objects:
+        if i.author == cur_user:
+            movie_list.append(i.movie)
+    for i in profile_objects:
+        if i.author == cur_user:
+            pair = (i.thumbnail.url,i.about)
+            profile_list.append(pair)
+        break
+    if request.method =="POST":
+        form = forms.ProfileForm(request.POST)
+    else:
+        form = forms.ProfileForm()
+    context = {
+    "list1" :movie_list,
+    "list2":profile_list,
+    "form": form,
+    }
+    return render(request,"profile.html",context=context)
+
+
 def chat_view(request):
     return render(request, 'chat/chat.html')
 

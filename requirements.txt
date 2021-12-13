@@ -11,11 +11,15 @@ constantly==15.1.0
 cryptography==36.0.0
 daphne==3.0.2
 Django==3.2.9
+django-appconf==1.0.5
+django-imagekit==4.1.0
 hiredis==2.0.0
 hyperlink==21.0.0
 idna==3.3
 incremental==21.3.0
 msgpack==1.0.3
+pilkit==2.0
+Pillow==8.4.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21

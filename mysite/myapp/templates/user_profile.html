@@ -10,24 +10,20 @@
   <div class="tabs-panel is-active" id="panel1" v-for="p in Profile">
     <div class="callout clearfix">
       {%for o in list2%}
+      
       <img src="{{o.0}}" >
-      asdf
       {{o.1}}
       {% endfor %}
 
       
-    <a href="/createProfile/" class="button float-right ">Edit</a>
   </div>
   </div>
   <div class="tabs-panel" id="panel2">
     <div class="callout clearfix">
-    {%for o in list1%}
-    <li> {{o}} </li>
-    {% endfor %}
-    <p> </p>
-    <a href="/movies/" class="button float-right ">add</a>
-    <p></p>
-    <a href="/delete/" class="alert button float-right ">delete</a>
+      {%for o in list%}
+      
+      <li>{{o}}</li>
+      {% endfor %}
     
   </div>
 </div>

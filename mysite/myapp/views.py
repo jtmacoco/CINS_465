@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
@@ -31,6 +31,8 @@ def register_view(request):
     return render(request,"registration/register.html",context=context)
 @login_required
 def movies_view(request):
+    if not request.user.is_authenticated:
+        return redirect("/login/")
     if request.method == "POST":
         form = forms.MoviesForm(request.POST)
         if form.is_valid() and request.user.is_authenticated:
@@ -46,6 +48,8 @@ def movies_view(request):
     }
     return render(request,"movies.html",context=context)
 def match_view(request):
+    if not request.user.is_authenticated:
+        return redirect("/login/")
     movie_objects = models.MovieModel.objects.all()
     Movie_list = []
     l = []
@@ -93,7 +97,9 @@ def match_view(request):
         "list":sortes,
     }
     return render(request,"match.html",context=context)
-def delete_view(request):
+def delete_view(request,username):
+    if not request.user.is_authenticated:
+        return redirect("/login/")
     if request.method =="POST":
         form = forms.DeleteForm(request.POST)
         if form.is_valid():
@@ -114,11 +120,13 @@ def delete_view(request):
     return render(request,"delete.html",context=context)
 
 def createProfile_view(request):
+    if not request.user.is_authenticated:
+        return redirect("/login/")
     if request.method =="POST":
         form = forms.ProfileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save(request)
-            return redirect("/createProfile/")
+            return redirect("/profile/")
     else:
         form = forms.ProfileForm()
     context = {
@@ -128,6 +136,8 @@ def createProfile_view(request):
 
 
 def profile_view(request):
+    if not request.user.is_authenticated:
+        return redirect("/login/")
     cur_user = request.user
     movie_objects = models.MovieModel.objects.all()
     profile_objects = models.ProfileModel.objects.all()
@@ -140,23 +150,40 @@ def profile_view(request):
         if i.author == cur_user:
             pair = (i.thumbnail.url,i.about)
             profile_list.append(pair)
-        break
-    if request.method =="POST":
-        form = forms.ProfileForm(request.POST)
-    else:
-        form = forms.ProfileForm()
     context = {
     "list1" :movie_list,
     "list2":profile_list,
-    "form": form,
     }
     return render(request,"profile.html",context=context)
 
+def user_profile_view(request,username):
+    movie_objects = models.MovieModel.objects.all()
+    profile_objects = models.ProfileModel.objects.all()
+    movie_list=[]
+    profile_list=[]
+    for i in movie_objects:
+        if(username == i.author.username):
+            movie_list.append(i.movie)
+    for i in profile_objects:
+       if(username == i.author.username):
+           pair = (i.thumbnail.url,i.about)
+           profile_list.append(pair)
+    context = {
+        'list':movie_list,
+        'list2':profile_list,
+        'username':username
+    }
+    return render(request,"user_profile.html",context=context)
 
 def chat_view(request):
+    if not request.user.is_authenticated:
+        return redirect("/login/")
     return render(request, 'chat/chat.html')
-
+def global_view(request):
+    return render(request, 'chat/global')
 def room(request, room_name):
+    if not request.user.is_authenticated:
+        return redirect("/login/")
     return render(request, 'chat/room.html', {
         'room_name': room_name
     })

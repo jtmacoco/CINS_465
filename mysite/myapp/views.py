@@ -60,14 +60,35 @@ def match_view(request):
         temp = {}
         if cur_user != m.author:
             temp["movie"]=m.movie
+            temp["author"]= m.author
             Movie_list += [temp]
+    user_movie_list = []
+    for m in movie_objects:
+        temp = {}
+        if cur_user == m.author:
+            temp["movie"]=m.movie
+            user_movie_list += [temp]
+    seen1 = set()
     for match in movie_objects:
-        t = {"priority":0}
         for j in range(len(Movie_list)):
-            if match.movie == Movie_list[j]["movie"] and match.author != cur_user:
-                t["priority"] += 1
-                t["user"] = match.author
-                l += [t]
+            t = {"priority":0}
+            for i in range(len(user_movie_list)):
+                if user_movie_list[i]["movie"] == Movie_list[j]["movie"] and Movie_list[j]["author"] != cur_user:
+                    seen1.add(Movie_list[j]["author"])
+                    t["priority"] += 1
+                    t["user"] = Movie_list[j]["author"]
+                    l += [t]
+               
+    
+    for match in movie_objects:
+        t1  = {"priority":0}
+        if match.author not in seen1:
+            for j in range(len(Movie_list)):
+                if match.author != cur_user:
+                    t1["priority"] += 0
+                    t1["user"] = match.author
+                    l += [t1]
+    
     seen = set()
     new_l = []
     for d in l:
@@ -84,7 +105,8 @@ def match_view(request):
                 if new_l[i]["user"] == new_l[j]["user"]:
                     max += new_l[i]["priority"] + new_l[j]["priority"]
                 # else:
-                #     max = new_l[j]["priority"]
+                #     max = 0
+                #     max += new_l[j]["priority"]
                     # break
             pair = (max,new_l[i]["user"])
             seen.add(new_l[i]["user"])
@@ -94,10 +116,10 @@ def match_view(request):
     a_key = "priority"
     values_of_key = [a_dict[a_key] for a_dict in sort]
     context = {
-        "list":sortes,
+        "list": sortes,
     }
     return render(request,"match.html",context=context)
-def delete_view(request,username):
+def delete_view(request ):
     if not request.user.is_authenticated:
         return redirect("/login/")
     if request.method =="POST":
@@ -150,14 +172,16 @@ def profile_view(request):
         if i.author == cur_user:
             pair = (i.thumbnail.url,i.about)
             profile_list.append(pair)
+    
     context = {
     "list1" :movie_list,
     "list2":profile_list,
+    "cur":cur_user
     }
     return render(request,"profile.html",context=context)
 
 def user_profile_view(request,username):
-    previous_instance = models.PreviousModel.objects.create(author="test",date=datetime.now())
+    #previous_instance = models.PreviousModel.objects.create(author="test",date=datetime.now())
     movie_objects = models.MovieModel.objects.all()
     profile_objects = models.ProfileModel.objects.all()
     movie_list=[]

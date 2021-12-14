@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.contrib.auth.models import User as auth_user
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+from datetime import datetime,timezone
 # Create your models here.
 class MovieModel(models.Model):
     movie = models.CharField(max_length=240)
@@ -21,3 +23,7 @@ class ProfileModel(models.Model):
     )
     about = models.CharField(max_length=240)
     author = models.ForeignKey(auth_user,on_delete=models.CASCADE)
+
+class PreviousModel(models.Model):
+     author = models.ForeignKey(auth_user,on_delete=models.CASCADE)
+     date = models.DateTimeField(default=datetime.now)

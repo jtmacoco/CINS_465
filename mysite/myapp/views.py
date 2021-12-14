@@ -157,6 +157,7 @@ def profile_view(request):
     return render(request,"profile.html",context=context)
 
 def user_profile_view(request,username):
+    previous_instance = models.PreviousModel.objects.create(author="test",date=datetime.now())
     movie_objects = models.MovieModel.objects.all()
     profile_objects = models.ProfileModel.objects.all()
     movie_list=[]
@@ -179,8 +180,7 @@ def chat_view(request):
     if not request.user.is_authenticated:
         return redirect("/login/")
     return render(request, 'chat/chat.html')
-def global_view(request):
-    return render(request, 'chat/global')
+
 def room(request, room_name):
     if not request.user.is_authenticated:
         return redirect("/login/")

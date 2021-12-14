@@ -11,10 +11,9 @@ urlpatterns = [
     path('delete/', views.delete_view),
     path('createProfile/',views.createProfile_view),
     path('profile/',views.profile_view),
-    path('<str:username>/',views.user_profile_view,name='username'),
-    path('global/', views.global_view),
-  
     path('chat/',views.chat_view),
+    path('<str:username>/',views.user_profile_view,name='username'),
+
     path('<str:room_name>/', views.room, name='room'),
 
 ]

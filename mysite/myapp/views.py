@@ -172,6 +172,7 @@ def profile_view(request):
         if i.author == cur_user:
             pair = (i.thumbnail.url,i.about)
             profile_list.append(pair)
+      
     
     context = {
     "list1" :movie_list,
